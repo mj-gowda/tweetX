@@ -24,6 +24,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { createUserPost } from '@/lib/createPost';
 import { useToast } from '@/components/ui/use-toast';
+import ListFeedCard from '@/components/ListFeedCard';
 
 const FormSchema = z.object({
   post: z
@@ -47,6 +48,7 @@ export default function Page() {
       try {
         const result = await getFeed();
         setFeedData(result);
+
       } catch (error) {
         console.error('Error fetching feed:', error);
       }
@@ -84,7 +86,7 @@ export default function Page() {
 
 
   return (
-    <div className='flex flex-col items-center mt-4 sm:mt-10 w-1/2'>
+    <div className='flex flex-col items-center mt-4 sm:mt-10'>
       <Dialog>
         <DialogTrigger asChild>
           <Button className=' h-7 sm:h-10 px-4 sm:px-8 bg-rose-400 hover:bg-rose-500'>Write</Button>
@@ -123,8 +125,10 @@ export default function Page() {
       </Dialog>
 
       <div>
-        {feedData && feedData && feedData.map((item, index) => (
-          <p key={index}>{JSON.stringify(item)}</p>
+        {feedData && feedData.map((item, index) => (
+          <div key={index}>
+            <ListFeedCard userPosts={item.userPosts} name={item.name} />
+          </div>
         ))}
       </div>
     </div>

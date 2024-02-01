@@ -1,32 +1,20 @@
-'use client'
-import { useEffect, useState } from "react";
-import { getUserDetails, getUserPostsRealtime } from '@/lib/getProfile';
+import { getUserDetails, getUserPosts } from '@/lib/getProfile';
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
 import ListUserPosts from '@/components/ListUserPosts';
 
-const Profile = () => {
-    console.log('profile page');
-    const [userDetails, setUserDetails] = useState(null);
-    const [userPosts, setUserPosts] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const details = await getUserDetails();
-            setUserDetails(details);
+const Profile = async () => {
+    console.log('profile page')
+    const userDetails = await getUserDetails();
+    const userPosts = await getUserPosts();
 
-            const unsubscribe = await getUserPostsRealtime(details?.userid, (posts) => {
-                setUserPosts(posts);
-            });
-
-            return () => {
-                // Unsubscribe when component unmounts
-                unsubscribe();
-            };
-        };
-
-        fetchData();
-    }, []);
 
     return (
         <div className='md:mx-20 flex flex-col items-center '>
@@ -53,22 +41,32 @@ const Profile = () => {
                     <TabsContent value="Posts" className='w-full'>
                         {userPosts && userPosts.map((post, index) => (
                             <div className=' w-full justify-between' key={index}>
-                                <ListUserPosts post={post} currentUser={userDetails} />
+                                <ListUserPosts post={post} name={userDetails.name} />
                                 <Separator />
                             </div>
                         ))}
                     </TabsContent>
-                    <TabsContent value="Followers">
+                    <TabsContent value="Followers" className='w-full'>
                         {userDetails && userDetails.followers.map((follower, index) => (
                             <div key={index}>
-                                <p>{follower.name} ({follower.userId})</p>
+                                <Card className="w-full h-auto shadow-md flex flex-col">
+                                    <CardHeader className=" flex flex-row justify-between">
+                                        <CardTitle className="order-first text-base sm:text-lg text-slate-500 font-semibold">{follower.name}</CardTitle>
+                                    </CardHeader>
+                                </Card>
+                                <Separator />
                             </div>
                         ))}
                     </TabsContent>
-                    <TabsContent value="Following">
-                        {userDetails && userDetails.following.map((followed, index) => (
+                    <TabsContent value="Following" className='w-full'>
+                        {userDetails && userDetails.following.map((following, index) => (
                             <div key={index}>
-                                <p>{followed.name} ({followed.userId})</p>
+                                <Card className="w-full h-auto shadow-md flex flex-col">
+                                    <CardHeader className=" flex flex-row justify-between">
+                                        <CardTitle className="order-first text-base sm:text-lg text-slate-500 font-semibold">{following.name}</CardTitle>
+                                    </CardHeader>
+                                </Card>
+                                <Separator />
                             </div>
                         ))}
                     </TabsContent>

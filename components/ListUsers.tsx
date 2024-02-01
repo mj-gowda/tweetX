@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 const ListUsers = ({ userDetails, currentUser }) => {
     const [isFollowing, setIsFollowing] = useState(
-        currentUser?.following.some(user => user.userId === userDetails.userid)
+        currentUser?.following.some(user => user.userId === userDetails.userId)
     );
 
     const handleFollow = async () => {

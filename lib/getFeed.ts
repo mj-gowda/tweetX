@@ -23,13 +23,18 @@ export async function getFeed(): Promise<any[]> {
     const userDocRef = doc(db, "users", userId);
     const userDocSnapshot = await getDoc(userDocRef);
     const following = userDocSnapshot.data()?.following || [];
+    console.log('following', following)
+
+    if (following.length < 1) {
+        return [];
+    }
 
     // Query for posts where userId is in the following array
     const feedQuery = query(collection(db, "posts"), where("userId", "in", following.map(user => user.userId)));
     const feedSnapshot = await getDocs(feedQuery);
 
     // Extract posts from the query result
-    const feed = feedSnapshot.docs.map(doc => doc.data().userPosts || []).flat();
+    const feed = feedSnapshot.docs.map(doc => doc.data() || []).flat();
 
     // Return the feed
     return feed;

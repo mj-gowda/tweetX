@@ -6,7 +6,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-const ListUserPosts = ({ post, currentUser }) => {
+const ListUserPosts = ({ post, name }) => {
     function calculateTimeAgo(timestamp: number): string {
         const currentTimestamp = Date.now();
         const postTimestamp = new Date(timestamp).getTime();
@@ -32,7 +32,7 @@ const ListUserPosts = ({ post, currentUser }) => {
         <div>
             <Card className="w-full h-auto shadow-md flex flex-col">
                 <CardHeader className=" flex flex-row justify-between">
-                    <CardTitle className="order-first text-base sm:text-lg text-slate-500 font-semibold">{currentUser.name}</CardTitle>
+                    <CardTitle className="order-first text-base sm:text-lg text-slate-500 font-semibold">{name}</CardTitle>
                     <span className="order-last text-xs text-slate-400">{calculateTimeAgo(parseInt(post.id, 10))}</span>
                 </CardHeader>
                 <CardContent className="text-xs sm:text-sm text-slate-400">

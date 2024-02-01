@@ -6,8 +6,8 @@ import { db } from "./firebase";
 interface UserDetails {
     name: string;
     userid: string;
-    followers: string[];
-    following: string[];
+    followers: { name: string; userId: string }[];
+    following: { name: string; userId: string }[];
 }
 
 // Function to get all users

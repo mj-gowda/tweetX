@@ -1,4 +1,4 @@
-'use client'
+'use server'
 import { auth, currentUser } from "@clerk/nextjs";
 import { db } from "./firebase";
 import {
@@ -11,8 +11,8 @@ import {
 interface UserDetails {
     name: string;
     userid: string;
-    followers: string[];
-    following: string[];
+    followers: { name: string; userId: string }[];
+    following: { name: string; userId: string }[];
     id: string;
 }
 
@@ -32,7 +32,7 @@ export async function getUserDetails(): Promise<UserDetails | null> {
 
     // Reference to the user document in the 'users' collection
     const userRef = doc(db, "users", userId);
-    const userDoc = await getDoc(userRef);
+    let userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
         // User is new, add to 'users' collection
@@ -43,6 +43,8 @@ export async function getUserDetails(): Promise<UserDetails | null> {
             following: [],
         });
 
+        userDoc = await getDoc(userRef);
+
     }
 
     // Return the user details
@@ -51,27 +53,38 @@ export async function getUserDetails(): Promise<UserDetails | null> {
 
 
 
-export async function getUserPostsRealtime(userId: string, callback: (userPosts: UserPost[]) => void): Promise<() => void> {
+export async function getUserPosts(): Promise<UserPost[]> {
+    const { userId } = auth();
+    const user = await currentUser();
+    if (!userId) {
+        // User is not logged in
+        return null;
+    }
+
     const userDocRef = doc(db, "posts", userId);
+    let userDocSnapshot = await getDoc(userDocRef);
 
-    // Subscribe to real-time updates using onSnapshot
-    const unsubscribe = onSnapshot(userDocRef, (snapshot) => {
-        const userPostsMap: Record<string, UserPost> = snapshot.data()?.userPosts || {};
+    if (!userDocSnapshot.exists()) {
+        await setDoc(userDocRef, {
+            userId: userId,
+            name: user?.username
+        });
 
-        // Convert the userPosts map into an array of posts with id
-        const userPostsArray: UserPost[] = Object.entries(userPostsMap).map(([id, post]) => ({
-            id,
-            ...post,
-        }));
+        userDocSnapshot = await getDoc(userDocRef);
+    }
 
-        // Sort the posts array based on the id (timestamp) in descending order
-        const sortedUserPostsArray = userPostsArray.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
+    const userPostsMap: Record<string, UserPost> = userDocSnapshot.data()?.userPosts || {};
 
-        // Call the callback function with the updated posts array
-        callback(sortedUserPostsArray);
-    });
+    // Convert the userPosts map into an array of posts with id
+    const userPostsArray: UserPost[] = Object.entries(userPostsMap).map(([id, post]) => ({
+        id,
+        ...post,
+    }));
 
-    return unsubscribe;
+    // Sort the posts array based on the id (timestamp) in descending order
+    const sortedUserPostsArray = userPostsArray.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
+
+    return sortedUserPostsArray;
 }
 
 
