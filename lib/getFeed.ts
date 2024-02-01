@@ -13,6 +13,7 @@ import {
 // Function to get feed
 export async function getFeed(): Promise<any[]> {
     const { userId } = auth();
+    console.log('get feed')
 
     if (!userId) {
         // User is not logged in

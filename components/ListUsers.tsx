@@ -7,12 +7,21 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { updateFollowing } from "@/lib/updateFollowing";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ListUsers = ({ userDetails, currentUser }) => {
+    const [isMounted, setIsMounted] = useState(false);// by default not rendered
     const [isFollowing, setIsFollowing] = useState(
         currentUser?.following.some(user => user.userId === userDetails.userId)
     );
+    // prevent hydration
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
 
     const handleFollow = async () => {
         // Call the function to update following

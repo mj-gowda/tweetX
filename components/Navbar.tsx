@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { IoMdMenu, IoMdClose } from "react-icons/io"
 import { useState } from "react";
@@ -28,7 +28,19 @@ const NAV_ITEMS: Array<NavItem> = [
 ];
 
 export default function Navbar() {
+    const [isMounted, setIsMounted] = useState(false);// by default not rendered
     const [navbar, setNavbar] = useState(false)
+    // prevent hydration
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
+
+
+
 
     return (
         <header className="w-full mx-auto px-4 sm:px-20 fixed top-0 z-50 text-rose-400 bg-blue-100 md:bg-inherit shadow-md">
@@ -38,9 +50,9 @@ export default function Navbar() {
                         <Link href="/home">
                             <div className="container flex items-center space-x-2">
                                 <div className="mb-2 md:mb-0">
-                                    <a href="/home" className="flex items-center">
+                                    <p className="flex items-center">
                                         <span className=" items-center text-xl font-semibold whitespace-nowrap dark:text-white">TweetX</span>
-                                    </a>
+                                    </p>
                                 </div>
                             </div>
                         </Link>
