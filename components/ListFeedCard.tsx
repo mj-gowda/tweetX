@@ -1,11 +1,3 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import ListUserPosts from "./ListUserPosts";
 import { Separator } from "@radix-ui/react-separator";
 
@@ -15,13 +7,16 @@ interface UserPost {
 }
 
 const ListUsersCard = ({ userPosts, name }) => {
+    if (!userPosts)
+        return null;
+
     const userPostsArray = Object.entries(userPosts).map(([id, post]: [string, UserPost]) => ({
         id,
         ...post
     }));
 
     // Sort the posts array based on the id (timestamp) in descending order
-    const sortedUserPostsArray = userPostsArray.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
+    const sortedUserPostsArray = userPostsArray?.sort((a, b) => parseInt(b.id, 10) - parseInt(a.id, 10));
 
 
     return (

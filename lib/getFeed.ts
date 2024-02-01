@@ -23,7 +23,6 @@ export async function getFeed(): Promise<any[]> {
     const userDocRef = doc(db, "users", userId);
     const userDocSnapshot = await getDoc(userDocRef);
     const following = userDocSnapshot.data()?.following || [];
-    console.log('following', following)
 
     if (following.length < 1) {
         return [];

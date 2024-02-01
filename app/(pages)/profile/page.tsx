@@ -11,7 +11,6 @@ import ListUserPosts from '@/components/ListUserPosts';
 
 
 const Profile = async () => {
-    console.log('profile page')
     const userDetails = await getUserDetails();
     const userPosts = await getUserPosts();
 

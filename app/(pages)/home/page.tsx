@@ -43,7 +43,6 @@ export default function Page() {
   const [feedData, setFeedData] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log('home page')
     const fetchData = async () => {
       try {
         const result = await getFeed();
@@ -69,7 +68,6 @@ export default function Page() {
 
     createUserPost(postContent)
       .then(() => {
-        console.log('Post created successfully!', data);
         toast({
           description: "Your post has been published.",
         })
@@ -124,9 +122,9 @@ export default function Page() {
         </DialogContent>
       </Dialog>
 
-      <div>
+      <div className='sm:w-1/2'>
         {feedData && feedData.map((item, index) => (
-          <div key={index}>
+          <div key={index} className='w-full'>
             <ListFeedCard userPosts={item.userPosts} name={item.name} />
           </div>
         ))}

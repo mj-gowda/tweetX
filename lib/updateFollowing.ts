@@ -40,10 +40,6 @@ export const updateFollowing = async ({ userDetails }) => {
                     name: currentUserData.name
                 })
             });
-
-            console.log(`Successfully updated following for ${currentUserId}`);
-        } else {
-            console.log(`User ${currentUserId} is already following ${userDetails.userId}`);
         }
     } catch (error) {
         console.error("Error updating following:", error);
