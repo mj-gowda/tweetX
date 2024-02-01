@@ -122,7 +122,7 @@ export default function Page() {
         </DialogContent>
       </Dialog>
 
-      <div className='sm:w-1/2'>
+      <div className='w-full sm:w-1/2'>
         {feedData && feedData.map((item, index) => (
           <div key={index} className='w-full'>
             <ListFeedCard userPosts={item.userPosts} name={item.name} />

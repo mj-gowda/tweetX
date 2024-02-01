@@ -22,7 +22,7 @@ const ListUsersCard = ({ userPosts, name }) => {
     return (
         <div>
             {sortedUserPostsArray && sortedUserPostsArray.map((post, index) => (
-                <div className=' w-full my-2' key={index}>
+                <div className=' w-full m-2' key={index}>
                     <ListUserPosts post={post} name={name} />
                     <Separator />
                 </div>
