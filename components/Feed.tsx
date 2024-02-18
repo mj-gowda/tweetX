@@ -40,26 +40,23 @@ const FormSchema = z.object({
 
 export default function Feed() {
     const { toast } = useToast()
-    const [load, setLoad] = useState(true);
     const [feedData, setFeedData] = useState<any[]>([]);
 
 
-    const fetchData = useCallback(async () => {
-        try {
-            const result = await getFeed();
-            setFeedData(result);
-
-        } catch (error) {
-            console.error('Error fetching feed:', error);
-        }
-    }, []);
-
-
     useEffect(() => {
-        console.log('feed page');
+        const fetchData = async () => {
+            try {
+                const result = await getFeed();
+                setFeedData(result);
+
+            } catch (error) {
+                console.error('Error fetching feed:', error);
+            }
+        }
+
         fetchData();
-        return () => setLoad(true);
-    }, [fetchData]);
+
+    }, []);
 
 
     const form = useForm<z.infer<typeof FormSchema>>({

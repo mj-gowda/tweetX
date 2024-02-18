@@ -1,26 +1,29 @@
-# **Features**
+<p align="center">
+<img src="./public/banner.gif" alt="demonstration" height="280" width="500" />  
+</p>
 
-### **Authentication and Account Management**
+
+## **Features**
+
+#### **Authentication and Account Management**
 Our system ensures seamless and secure user experiences:
 - Users can sign up using email and password
 - Users can sign up using third-party authentication providers such as Google and GitHub
-- Users can log in using email and password
-- Users can log out
 - Users can manage their subscriptions and payments
 
-### **Create Post**
+#### **Create Post**
 - Users can create posts which is checked by zod and has max 100 characters limit.
 - Users can access their posts, followers and following through their profile page.
 
-### **Follow any user on the platform**
+#### **Follow any user on the platform**
 - Users can see all users and follow them.
 - Users can see the posts of all the users they have followed in their feed page.
 
-# **Tech Stack**
+## **Tech Stack**
 
 This web app utilizes a robust set of modern technologies to deliver a high-quality user experience:
 
-## **Frontend**
+#### **Frontend**
 
 - **[Next.js](https://nextjs.org/)**: A React-based framework offering tools and conventions for server-side rendered (SSR) and statically generated web applications.
 
@@ -28,7 +31,7 @@ This web app utilizes a robust set of modern technologies to deliver a high-qual
 
 - **[Shadcn UI](https://ui.shadcn.com/)**: A collection of reusable, accessible, and customizable components built with Radix UI and Tailwind CSS. Shadcn UI offers an easy start for developers, irrespective of their experience with component libraries.
 
-## **Backend**
+#### **Backend**
 
 - **[Node.js](https://nodejs.org/en/)**: A JavaScript runtime environment that executes JavaScript code outside of a web browser.
 
@@ -38,16 +41,6 @@ This web app utilizes a robust set of modern technologies to deliver a high-qual
 - **[Clerk Auth](https://clerk.com/)**: A user-friendly authentication and user management platform. Clerk provides multiple authentication strategies and a comprehensive user management system. It is secure, scalable, and easy to use, with customizable UI components.
 
 - **[Zod](https://github.com/colinhacks/zod)**: A TypeScript-first schema declaration and validation library used for type-safe REST APIs.
-
-
-## **AI and Media Generation**
-
-- **[OpenAI](https://openai.com/)**: Utilized for generating text and images. OpenAI’s GPT-3.5 is used for text generation, and DALL-E for image generation.
-
-- **[Replicate AI](https://replicate.com/)**: Used for generating music and videos based on user inputs.
-
-Each technology in this stack plays a crucial role in delivering a seamless and dynamic user experience.
-
 
 
 ## 1. **Clone the Project Locally**
